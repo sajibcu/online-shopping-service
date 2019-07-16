@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <springProfile name="!development">
+        <appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <encoder>
+                <charset>utf-8</charset>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+            <file>/var/log/emergingit/niceschool.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- rollover daily -->
+                <fileNamePattern>/var/log/emergingit/niceschool.log.%d.%i.gz</fileNamePattern>
+                <maxHistory>30</maxHistory>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+        </appender>
+
+        <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+            <queueSize>2048</queueSize>
+            <appender-ref ref="TIME_BASED_FILE"/>
+        </appender>
+    </springProfile>
+
+    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+        <smtpHost>smtprelay.emerging-it.com</smtpHost>
+        <to>tl.dev@emerging-it.com</to>
+        <springProfile name="development">
+            <from>app-alert@dev.emerging-it.com</from>
+            <subject>Nice School Registration Application Alert [Dev]</subject>
+        </springProfile>
+        <springProfile name="staging">
+            <from>app-alert@staging.emerging-it.com</from>
+            <subject>Nice School Registration Application Alert [Staging]</subject>
+        </springProfile>
+        <springProfile name="production">
+            <from>app-alert@emerging-it.com</from>
+            <subject>Nice School Registration Application Alert [Production]</subject>
+        </springProfile>
+
+        <layout class="ch.qos.logback.classic.html.HTMLLayout">
+            <pattern>%date%thread%level%logger{30}%msg</pattern>
+        </layout>
+
+    </appender>
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <logger name="com.emerging.it" level="@logback.loglevel@"/>
+
+    <logger name="javax.activation" level="WARN"/>
+    <logger name="javax.mail" level="WARN"/>
+    <logger name="javax.xml.bind" level="WARN"/>
+    <logger name="ch.qos.logback" level="WARN"/>
+    <logger name="com.codahale.metrics" level="WARN"/>
+    <logger name="com.ryantenney" level="WARN"/>
+    <logger name="com.sun.xml.internal.bind" level="WARN"/>
+    <logger name="com.zaxxer" level="WARN"/>
+    <logger name="io.undertow" level="WARN"/>
+    <logger name="net.sf.ehcache" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+    <logger name="org.bson" level="WARN"/>
+    <logger name="org.hibernate.validator" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.web" level="WARN"/>
+    <logger name="org.springframework.security" level="WARN"/>
+    <logger name="org.springframework.cache" level="WARN"/>
+    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.xnio" level="WARN"/>
+    <logger name="springfox" level="WARN"/>
+    <logger name="sun.rmi" level="WARN"/>
+    <logger name="liquibase" level="INFO"/>
+    <logger name="sun.rmi.transport" level="WARN"/>
+
+    <root level="@logback.loglevel@">
+        <springProfile name="development">
+            <appender-ref ref="CONSOLE"/>
+        </springProfile>
+
+        <springProfile name="staging">
+            <!--<appender-ref ref="ASYNC"/>-->
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="EMAIL"/>
+        </springProfile>
+
+        <springProfile name="production">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC"/>
+            <appender-ref ref="EMAIL"/>
+        </springProfile>
+    </root>
+
+</configuration>

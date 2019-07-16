@@ -1,0 +1,105 @@
+logging:
+  level:
+    root: INFO
+    com.emerging.it: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/onlineshopping
+    username: onlineshopping
+    password: onlineshopping
+
+# the second level caching
+  jpa:
+    database-platform: com.red.code.onlineshopping.database.entity.utils.FixedPostgreSQL82Dialect
+    database: POSTGRESQL
+    show_sql: false
+    properties:
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: true
+  http:
+    multipart:
+      max-file-size: 20Mb
+      max-request-size: 40Mb
+  profiles:
+    active: development
+
+server:
+  port: 8080
+
+liquibase:
+  enabled: true
+
+#emerging properties
+emerging:
+  admin:
+    email: info@redcode.com
+  mail: #mail config
+    host: smtprelay.redcode-it.com
+    username:
+    password:
+    port: 25
+    protocol: smtp
+    tls: false
+    auth: false
+    from: no-reply@redcode-it.com
+  async:
+    main:
+      corePoolSize: 2
+      maxPoolSize: 50
+      queueCapacity: 1000
+  cache: # Hibernate 2nd level cache, used by CacheConfiguration
+    timeToLiveSeconds: 3600
+    ehcache:
+      maxBytesLocalHeap: 16M
+    info:
+      contactEmail: support@redcode.com
+      customercare:
+        phone: +880-1xxxxxxxxx
+  upload:
+    path: /var/lib/upload_images
+  google:
+    recaptcha:
+      secretKey: 6LdutaoUAAAAALk48zPvDTUwETA1qvy4mcfLAv8J
+      verifyUrl: https://www.google.com/recaptcha/api/siteverify
+
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    max-age: 1800
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        # As this is the PRODUCTION configuration, you MUST change the default key, and store it securely:
+        # - In the JHipster Registry (which includes a Spring Cloud Config server)
+        # - In a separate `application-prod.yml` file, in the same folder as your executable WAR file
+        # - In the `SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
+        secret: ZDg1Mzg4MjM5MTI4ZWY1ODk5OWMwZjA0MjI3YzAxNDk0MDg4ZDRhZTY5MTY3ZmUyYzZlZjA1Nzc4OGNjMmI5MTNlM2U4OGU2OTQzOGVhYWI3ZjQ0NTNiNWNlNDg0Yjk2NjVmZThmYzNiMTM5Y2JlNGI0ZDg1NzFkNjJhZTA0MDQ=
+        # Token is valid 24 hours
+        tokenValidityInDays: 1
+        tokenValidityInDaysForRememberMe: 30
+  swagger:
+      title: Red Code Online Shopping API
+      description: Red Code Online Shopping API documentation
+      version: 0.0.1
+      termsOfServiceUrl:
+      contact-name:
+      contact-url:
+      contact-email:
+      license:
+      licenseUrl:
+  scheduled:
+    daily: 0 0 6 * * ?
+    hourly: 0 0 */1 * * ?
+    halfhourly: 0 */30 * * * ?
+    minutely: 0 */1 * * * ?
+
+info:
+  os: ${os.name}
