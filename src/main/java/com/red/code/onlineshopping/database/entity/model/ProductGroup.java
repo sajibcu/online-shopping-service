@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 public class ProductGroup extends AbstractAuditingEntity{
 	
 	 	@Id
-	    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_group_seq")
-	    @SequenceGenerator(name = "product_group_seq", sequenceName = "product_group_seq", allocationSize = 1)
+	    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_group_id_seq")
+	    @SequenceGenerator(name = "product_group_id_seq", sequenceName = "product_group_id_seq", allocationSize = 1)
 	    private Long id;
 	 	
 	 	@Size(max = 64)

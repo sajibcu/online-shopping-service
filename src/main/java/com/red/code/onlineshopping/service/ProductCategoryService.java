@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.red.code.onlineshopping.database.entity.model.ProductCategory;
+import com.red.code.onlineshopping.service.dto.ProductCategoryDTO;
 
 
 public interface ProductCategoryService {
@@ -16,10 +17,10 @@ public interface ProductCategoryService {
 
     ProductCategory getProductCategorybyId(Long id);
 
-    ProductCategory createNewProductCategory(ProductCategory productCategory);
+    ProductCategory createNewProductCategory(ProductCategoryDTO productCategoryDTO);
 
     void deleteProductCategory(Long id);
 
-    ProductCategory editProductCategory(ProductCategory productCategory);
+    ProductCategory editProductCategory(ProductCategoryDTO productCategoryDTO);
 
 }

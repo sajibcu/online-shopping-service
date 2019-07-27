@@ -3,7 +3,6 @@ package com.red.code.onlineshopping.web.rest;
 import com.red.code.onlineshopping.common.utils.SecurityUtils;
 import com.red.code.onlineshopping.service.UserService;
 import com.red.code.onlineshopping.service.dto.UserDTO;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class UserResource {
     private UserService userService;
 
     @Autowired
-    public void UserController(UserService userService) {
+    public UserResource(UserService userService) {
         this.userService = userService;
     }
 

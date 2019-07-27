@@ -8,8 +8,10 @@ import com.red.code.onlineshopping.database.entity.model.ProductGroup;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ProductCategoryDTO {
 	private Long id;
