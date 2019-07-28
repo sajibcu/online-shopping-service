@@ -1,0 +1,92 @@
+databaseChangeLog:
+- property:
+    name: now
+    value: now()
+    dbms: mysql,h2
+- property:
+    name: now
+    value: current_timestamp
+    dbms: postgresql
+- property:
+    name: floatType
+    value: float4
+    dbms: h2,postgresql
+- property:
+    name: floatType
+    value: float
+    dbms: mysql
+- changeSet:
+    id: 1556966792
+    author: sajib
+    changes:
+    - createTable:
+        tableName: product_category
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: name
+            type: varchar(64)
+        - column:
+            name: group_id
+            type: bigint
+        - column:
+            name: category_id
+            type: bigint
+        - column:
+            name: orginal_price
+            type: double
+        - column:
+            name: discount_type
+            type: int
+        - column:
+            name: discount
+            type: double
+        - column:
+            name: buy_price
+            type: double
+        - column:
+            name: sel_price
+            type: double
+        - column:
+            name: quantity
+            type: int
+        - column:
+            name: caption
+            type: text
+        - column:
+            name: image_original_name
+            type: varchar(100)
+        - column:
+            name: image_name
+            type: varchar(100)
+        - column:
+            name: search_key
+            type: text
+        - column:
+            name: activated
+            type: boolean
+            constraints:
+              nullable: false 
+        - column:
+            name: created_by
+            type: varchar(50)
+            constraints:
+              nullable: false
+        - column:
+            name: created_date
+            type: timestamp
+            defaultValueDate: ${now}
+            constraints:
+              nullable: false
+        - column:
+            name: last_modified_by
+            type: varchar(50)
+        - column:
+            name: last_modified_date
+            type: timestamp
